@@ -39,10 +39,9 @@ function fetchFunction (...args) {
 async function getEmsClient(deployment, locale) {
   let config;
   try {
-    const response = await fetch('config.json');
-    config = await response.json();
+    config = await(await fetch('config.json')).json();
   } catch (e) {
-    throw new Error(`Config file is missing or invalid`);
+    throw new Error('Config file is missing');
   }
   const manifest = config.SUPPORTED_EMS.manifest.hasOwnProperty(deployment)
     ? config.SUPPORTED_EMS.manifest[deployment]
