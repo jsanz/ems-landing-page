@@ -150,7 +150,15 @@ export class App extends Component {
 
     this._selectTmsLayer = async (config) => {
       const source = await this._getTmsSource(config);
-      const { operation, percentage } = TMSService.colorOperationDefaults.find(c => c.style === config.getId());
+      if (config.getId() === 'cloudless') {
+        if (source && source.sources && source.sources.cloudless) {
+          source.sources.cloudless.type = 'raster';
+        }
+      }
+
+      const { operation, percentage } = config.getId() !== 'cloudless' 
+        ? TMSService.colorOperationDefaults.find(c => c.style === config.getId())
+        : { operation: null , percentage: 0 };
       this.setState({
         selectedTileLayer: config,
         selectedColorOp: operation,
@@ -328,7 +336,7 @@ export class App extends Component {
         throw new Error(`${selectedColor} is not a valid color representation`);
       }
 
-      source?.layers.forEach(layer => {
+      source?.layers.filter((layer) => layer.type != 'raster').forEach(layer => {
         TMSService
           .transformColorProperties(layer, selectedColor, selectedColorOp, selectedPercentage)
           .forEach(({ color, property }) => {

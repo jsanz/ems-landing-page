@@ -4,6 +4,10 @@
   "SUPPORTED_EMS": {
     "emsVersion": "9.2.0",
     "manifest": {
+      "development": {
+        "emsFileApiUrl": "https://storage.googleapis.com/elastic-bekitzur-emsfiles-vector-dev",
+        "emsTileApiUrl": "http://192.168.49.2:31323"
+      },
       "testing": {
         "emsFileApiUrl": "https://storage.googleapis.com/elastic-bekitzur-emsfiles-vector-dev",
         "emsTileApiUrl": "https://tiles.maps.elastic.dev"
